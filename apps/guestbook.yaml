@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd                     # Applications always live in Argo's namespace
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io   # deleting the app also deletes its resources
+spec:
+  project: default                      # fine for a lab; use a dedicated AppProject in prod
+  source:
+    repoURL: https://github.com/rshiva/argocd-lab.git
+    targetRevision: main
+    path: workloads/guestbook
+  destination:
+    server: https://kubernetes.default.svc   # "this cluster"
+    namespace: guestbook
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
