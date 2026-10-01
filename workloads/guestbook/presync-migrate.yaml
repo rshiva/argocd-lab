@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrate
+  namespace: default
+  labels:
+    app: db-migrate
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: busybox:1.36
+          command: ["sh","-c", "echo running migrations; sleep 10; echo done"]
