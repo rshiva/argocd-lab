@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io   # deleting the app also deletes its resources
 spec:
-  project: default                      # fine for a lab; use a dedicated AppProject in prod
+  project: lab                      # fine for a lab; use a dedicated AppProject in prod
   source:
     repoURL: https://github.com/rshiva/argocd-lab.git
     targetRevision: main

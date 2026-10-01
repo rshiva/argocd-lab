@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: lab
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  description: Lab workloads
+  sourceRepos:
+    - https://github.com/rshiva/argocd-lab.git
+    - https://stefanprodan.github.io/podinfo
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: guestbook
+    - server: "*"
+      namespace: podinfo
+  clusterResourceWhitelist:                  # only cluster-scoped kind allowed
+    - group: ""
+      kind: Namespace
+  roles:
+    - name: ci
+      description: CI may view and sync lab apps, nothing else
+      policies:
+        - p, proj:lab:ci, applications, get, lab/*, allow
+        - p, proj:lab:ci, applications, sync, lab/*, allow
