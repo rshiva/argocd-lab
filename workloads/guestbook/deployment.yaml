@@ -18,3 +18,4 @@ spec:
           ports: [{ containerPort: 80 }]
           envFrom:
             - configMapRef: {name: guestbook-config}
+            - secretRef: {name: guestbook-db}
