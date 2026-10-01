@@ -2,9 +2,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: db-migrate
-  namespace: default
-  labels:
-    app: db-migrate
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   backoffLimit: 0
   template:
@@ -13,5 +13,5 @@ spec:
       containers:
         - name: migrate
           image: busybox:1.36
-          # command: ["sh","-c", "echo running migrations; sleep 10; echo done"]
-          command: ["sh","-c", "exit 1"]
+          # command: ["sh", "-c", "echo running migrations; sleep 10; echo done"]
+          command: ["sh", "-c", "exit 1"]
